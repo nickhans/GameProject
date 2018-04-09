@@ -3,5 +3,6 @@
 
 //creates objects
 struct object objs[] = {
-    {"a small golden key", "key"}
+    {"a small golden key", "key"},
+    {"a new object", "object"}
 };
