@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "location.h"
+#include "object.h"
 #include "misc.h"
 
 
@@ -31,6 +32,10 @@ static int parseAndExecute() {
             executeGo(noun);
         } else if (!strcmp(verb, "help")) {
             executeHelp(noun);
+        } else if (!strcmp(verb, "take")){
+            executeTake(noun);
+        } else if (!strcmp(verb, "drop")) {
+            executeDrop();
         } else {
             printf("I'm not sure what that means\n");
         }

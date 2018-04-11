@@ -6,6 +6,7 @@ void executeHelp(const char * noun) {
     if (noun == NULL) {
         printf("List of Commands:\n"
                 "go             look\n"
+                "take           drop\n"
                 "quit\n"
             "Try 'help <command>' for help on that command.\n");
     } else if (!strcmp(noun, "go")) {
@@ -16,6 +17,13 @@ void executeHelp(const char * noun) {
     } else if (!strcmp(noun, "look")) {
         printf("Use this command for looking at something specific or the contents of a room\n"
                 "Try 'look around'.\n");
+    } else if (!strcmp(noun, "take")){
+        printf("Use this command to pick up objects from a room: 'take <object>'\n"
+                "Remember you can only pick up one object at a time!\n"
+                "Try finding the objects in a room using 'look around'\n");
+    } else if (!strcmp(noun, "drop")){
+        printf("Use this command to drop the item you are carrying\n"
+                "For this command you don't need to type the object name, just 'drop'\n");
     } else if (!strcmp(noun, "quit")) {
         printf("Use this command to quit the game.\n"
         "WARNING: Progress will not be saved.\n");

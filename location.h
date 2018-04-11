@@ -4,9 +4,12 @@
 struct location {
     const char * description;
     const char * name;
+    int roomNumber;
 };
 
 extern struct location locs[];
+extern int numberOfLocations;
+extern int locationOfPlayer;
 
 #define center (locs + 0)
 #define room1 (locs + 1)
