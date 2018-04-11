@@ -2,31 +2,39 @@
 #include <string.h>
 #include "misc.h"
 
+// function to print help messages
 void executeHelp(const char * noun) {
+    // if there is no noun print list of commands
     if (noun == NULL) {
         printf("List of Commands:\n"
-                "go             look\n"
+                "go             examine\n"
                 "take           drop\n"
                 "quit\n"
             "Try 'help <command>' for help on that command.\n");
+    // if noun is go print go help message
     } else if (!strcmp(noun, "go")) {
         printf("Use this command to go to a new area.\n"
-        "Use 'go cw' to move clockwise around rooms or 'go ccw' to move counter-clockwise.\n"
-        "You can also specify a room to go to such as 'go 3' to go to room 3.\n"
-        "List of avaliable rooms: 1, 2, 3, 4, 5, 6, center\n");
-    } else if (!strcmp(noun, "look")) {
+                "Use 'go cw' to move clockwise around rooms or 'go ccw' to move counter-clockwise.\n"
+                "You can also specify a room to go to such as 'go 3' to go to room 3.\n"
+                "List of avaliable rooms: 1, 2, 3, 4, 5, 6, center\n");
+    // if noun is examine print examine help message
+    } else if (!strcmp(noun, "examine")) {
         printf("Use this command for looking at something specific or the contents of a room\n"
-                "Try 'look around'.\n");
+                "Try 'examine room'.\n");
+    // if noun is take print take help message
     } else if (!strcmp(noun, "take")){
         printf("Use this command to pick up objects from a room: 'take <object>'\n"
                 "Remember you can only pick up one object at a time!\n"
-                "Try finding the objects in a room using 'look around'\n");
+                "Try finding the objects in a room using 'examine room'\n");
+    // if noun is drop print drop help message
     } else if (!strcmp(noun, "drop")){
         printf("Use this command to drop the item you are carrying\n"
                 "For this command you don't need to type the object name, just 'drop'\n");
+    // if noun is quit print quit help message
     } else if (!strcmp(noun, "quit")) {
         printf("Use this command to quit the game.\n"
-        "WARNING: Progress will not be saved.\n");
+                "WARNING: Progress will not be saved.\n");
+    // if invalid noun print message
     } else {
         printf("Please ask for help with a valid command.\n");
     }
