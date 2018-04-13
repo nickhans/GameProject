@@ -3,6 +3,7 @@
 #include <string.h>
 #include "object.h"
 #include "location.h"
+#include "player.h"
 
 // creates array of objects
 struct object objs[] = {
@@ -16,17 +17,6 @@ struct object objs[] = {
 int numberOfObjects = (sizeof(objs) / sizeof(*objs));
 // bool to note it an object was taken
 bool objectTaken = false;
-// TEMP VARIABLE UNTIL PLAYER STRUCT IS MADE
-int playerInventory = 7;
-
-// function to check if player is carrying an object, returns a boolean true if player has object
-bool checkPlayer() {
-    // loops through objects and checks if object location equals player inventory
-    for (int i = 0; i < numberOfObjects; i++) {
-        if (objs[i].locationOfObject == playerInventory) return true;
-    }
-    return false;
-}
 
 // function to take object and put it in player inventory
 void executeTake(const char * noun) {
@@ -39,7 +29,7 @@ void executeTake(const char * noun) {
             // for each object compare the name to the noun input
             // if they match change object location to player inventory
             if (!strcmp(noun, objs[i].objName)) {
-                objs[i].locationOfObject = playerInventory;
+                objs[i].locationOfObject = player.playerInventory;
                 printf("%s taken\n", objs[i].objName);
                 objectTaken = true;
                 break;
@@ -60,7 +50,7 @@ void executeDrop(const char * noun) {
     if (checkPlayer() == true) {
         for (int i = 0; i < numberOfObjects; i++) {
             // checks each object for object location == player inventory
-            if ( objs[i].locationOfObject == playerInventory) {
+            if ( objs[i].locationOfObject == player.playerInventory) {
                 // if no noun set object location to location of player
                 if (!noun) {
                     objs[i].locationOfObject = locationOfPlayer;

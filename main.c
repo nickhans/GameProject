@@ -3,6 +3,7 @@
 #include "location.h"
 #include "object.h"
 #include "misc.h"
+#include "player.h"
 
 // creates a string variable input to hold user input (max 100 characters)
 static char input[100];
@@ -41,6 +42,8 @@ static int parseAndExecute() {
             executeTake(noun);
         } else if (!strcmp(verb, "drop")) {     // definition in object.c
             executeDrop(noun);
+        } else if (!strcmp(verb, "inventory")) {     // definition in object.c
+            executeInventory();
         } else {
             printf("I'm not sure what that means\n");
         }

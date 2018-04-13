@@ -7,7 +7,7 @@ compile() {
     echo "Compiling game"   
     make                #runs makefile to compile individual .c files    
     #add .o files below
-    gcc main.o location.o object.o misc.o -o game      
+    gcc main.o location.o object.o player.o container.o misc.o -o game      
     if [ -e game ]      #checks if game.exec was made
         then {
             echo "Compile Successful"
