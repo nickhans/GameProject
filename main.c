@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <string.h>
+#include <sys/time.h> // used to find elapsed time
+
+
+// user made libraries
 #include "location.h"
 #include "object.h"
 #include "misc.h"
 #include "player.h"
+
+// variables from sys/time.h used for finding elapsed time
+struct timeval t1, t2;
+int elapsedTime;
 
 // creates a string variable input to hold user input (max 100 characters)
 static char input[100];
@@ -32,17 +40,17 @@ static int parseAndExecute() {
         // checks for various commands, if command is not found prints message at end
         if (!strcmp(verb, "quit")) {            // if quit returns 0 to end main loop
             return 0;
-        } else if (!strcmp(verb, "examine")){   // definition in location.c
+        } else if (!strcmp(verb, "examine")){       // definition in location.c
             executeExamine(noun);
-        } else if (!strcmp(verb, "go")) {       // definition in location.c
+        } else if (!strcmp(verb, "go")) {           // definition in location.c
             executeGo(noun);
-        } else if (!strcmp(verb, "help")) {     // definition in misc.c
+        } else if (!strcmp(verb, "help")) {         // definition in misc.c
             executeHelp(noun);
-        } else if (!strcmp(verb, "take")){      // definition in object.c
+        } else if (!strcmp(verb, "take")){          // definition in object.c
             executeTake(noun);
-        } else if (!strcmp(verb, "drop")) {     // definition in object.c
+        } else if (!strcmp(verb, "drop")) {         // definition in object.c
             executeDrop(noun);
-        } else if (!strcmp(verb, "inventory")) {     // definition in object.c
+        } else if (!strcmp(verb, "inventory")) {    // definition in player.c
             executeInventory();
         } else {
             printf("I'm not sure what that means\n");
@@ -53,12 +61,21 @@ static int parseAndExecute() {
 
 // main function consists mainly of game loop
 int main(void) {
+
     // print intro message
     displayEntry();
+    // get time at start of program
+    gettimeofday(&t1, NULL);
     // loop runs getInput and parseAndExecute which will continuously loop until quit command
     while (getInput() && parseAndExecute()); 
     //print exit message
     printf("Goodbye... for now...\n");
+    // get time at end of program
+    gettimeofday(&t2, NULL);
+    // find the difference between start time and end time
+    elapsedTime = (t2.tv_sec - t1.tv_sec);
+    // print the elapsed time
+    printf("Your time: %d seconds.\n", elapsedTime);
     return 0;
 }
 

@@ -46,6 +46,7 @@ void executeExamine(const char * noun) {
             }
         }
         for (int i = 0; i < numberOfContainers; i++) {
+            // checks for containers in room
             if (locationOfPlayer == contain[i].locationOfContainer) {
                 printf("-%s\n", contain[i].containName);
                 objectInRoom = true;
@@ -66,7 +67,9 @@ void executeExamine(const char * noun) {
             }
         }
         for (int i = 0; i < numberOfContainers; i++) {
+            // checks if the noun is a container in the room
             if (!strcmp(noun, contain[i].containName) && (locationOfPlayer == contain[i].locationOfContainer)) {
+                // prints the description of container
                 printf("This is %s.\n", contain[i].containDesc);
                 objectInRoom = true;
                 break;
@@ -126,7 +129,6 @@ void executeGo (const char * noun) {
             locationOfPlayer = center->roomNumber;
             describeRoom();
         }
-
     // if player is in center and there is a noun
     } else if (noun != NULL && locationOfPlayer == center->roomNumber) {
         // loop through locations and check if noun == a location name

@@ -17,6 +17,7 @@ bool checkPlayer() {
     return false;
 }
 
+// function to get the number of which object is being held
 int getHeldObject() {
     for (int i = 0; i < numberOfObjects; i++) {
         if (objs[i].locationOfObject == player.playerInventory) return i;
@@ -24,6 +25,7 @@ int getHeldObject() {
     return -1;
 }
 
+// a command for the user to check what is in their inventory
 void executeInventory() {
     if (checkPlayer()) {
         printf("You are holding %s.\n", objs[getHeldObject()].objName);

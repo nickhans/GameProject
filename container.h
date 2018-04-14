@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+// creates a struct for containers
 struct container {
     const char * containDesc;
     const char * containName;
@@ -11,6 +12,7 @@ struct container {
     int locationOfContainer;
 };
 
+// allows variables to be used elsewhere
 extern struct container contain[];
 extern int numberOfContainers;
 

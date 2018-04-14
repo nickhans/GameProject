@@ -9,7 +9,7 @@ void executeHelp(const char * noun) {
         printf("List of Commands:\n"
                 "go             examine\n"
                 "take           drop\n"
-                "quit\n"
+                "inventory      quit\n"
             "Try 'help <command>' for help on that command.\n");
     // if noun is go print go help message
     } else if (!strcmp(noun, "go")) {
@@ -34,7 +34,11 @@ void executeHelp(const char * noun) {
     } else if (!strcmp(noun, "quit")) {
         printf("Use this command to quit the game.\n"
                 "WARNING: Progress will not be saved.\n");
-    // if invalid noun print message
+    // if noun is inventory print inventory help message
+    } else if (!strcmp(noun, "inventory")) {
+        printf("Use this command to check the inventory of the player.\n"
+                "This command only needs 'inventory'.\n");
+    // if noun is none of the above
     } else {
         printf("Please ask for help with a valid command.\n");
     }
