@@ -3,6 +3,7 @@
 #include <string.h>
 #include "location.h"
 #include "object.h"
+#include "container.h"
 
 // creates an array of the locations in the game
 struct location locs[] = {
@@ -44,6 +45,13 @@ void executeExamine(const char * noun) {
                 objectInRoom = true;
             }
         }
+        for (int i = 0; i < numberOfContainers; i++) {
+            // checks for containers in room
+            if (locationOfPlayer == contain[i].locationOfContainer) {
+                printf("-%s\n", contain[i].containName);
+                objectInRoom = true;
+            }
+        }
         if (!objectInRoom) printf("-nothing\n");
         objectInRoom = false; // reset objectInRoom to false
     // if there is a noun but it isn't room
@@ -54,6 +62,15 @@ void executeExamine(const char * noun) {
                     || (objs[i].locationOfObject == 7))) {
                 // prints description of object
                 printf("This is %s.\n", objs[i].objDescription);
+                objectInRoom = true;
+                break;
+            }
+        }
+        for (int i = 0; i < numberOfContainers; i++) {
+            // checks if the noun is a container in the room
+            if (!strcmp(noun, contain[i].containName) && (locationOfPlayer == contain[i].locationOfContainer)) {
+                // prints the description of container
+                printf("This is %s.\n", contain[i].containDesc);
                 objectInRoom = true;
                 break;
             }
@@ -112,7 +129,6 @@ void executeGo (const char * noun) {
             locationOfPlayer = center->roomNumber;
             describeRoom();
         }
-
     // if player is in center and there is a noun
     } else if (noun != NULL && locationOfPlayer == center->roomNumber) {
         // loop through locations and check if noun == a location name
