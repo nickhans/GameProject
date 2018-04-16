@@ -8,7 +8,7 @@ struct container {
     const char * containDesc;
     const char * containName;
     const bool canMove;
-    const int containNumber; // starting after 7 (player)
+    const int containInventory; // starting after 7 (player)
     int locationOfContainer;
 };
 
