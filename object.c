@@ -53,12 +53,12 @@ void executeDrop(const char * noun) {
             if ( objs[i].locationOfObject == player.playerInventory) {
                 // if no noun set object location to location of player
                 if (!noun) {
-                    objs[i].locationOfObject = locationOfPlayer;
+                    objs[i].locationOfObject = player.locationOfPlayer;
                     printf("%s dropped.\n", objs[i].objName);
                     break; 
                 // if noun matches object name of object set object location to location of player
                 } else if (!strcmp(noun, objs[i].objName)) {
-                    objs[i].locationOfObject = locationOfPlayer;
+                    objs[i].locationOfObject = player.locationOfPlayer;
                     printf("%s dropped.\n", objs[i].objName);
                     break;
                 // if neither, print that player isn't holding that object

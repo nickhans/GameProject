@@ -5,7 +5,7 @@
 
 // creates player struct
 struct player {
-    int playerScore;
+    int locationOfPlayer;
     const int playerInventory;
     char name[50];
 };

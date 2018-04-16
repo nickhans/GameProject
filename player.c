@@ -4,7 +4,7 @@
 #include "object.h"
 
 struct player player = {
-    0,          // player score
+    0,          // player location (starts in center)
     7,          // playerInventory
     "Player"    // player name (starts default player)
 };

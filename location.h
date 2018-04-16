@@ -20,7 +20,6 @@ struct location {
 // allow these variables to be used elsewhere
 extern struct location locs[];
 extern int numberOfLocations;
-extern int locationOfPlayer;
 
 // allow these functions to be used elsewhere
 extern void executeExamine(const char * noun);
