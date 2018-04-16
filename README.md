@@ -9,3 +9,6 @@ the concepts that have been learned in the course.
 * There must be a score system
 * Must keep track of the top 5 highscores
 * Added bonus for complexity
+
+## How To Use
+To run this project, download the files to a folder and in command line go to folder and type './compile.sh'
