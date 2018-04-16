@@ -1,70 +1,110 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
+#include <sys/time.h> // used to find elapsed time
+
+
+// user made libraries
 #include "location.h"
+#include "object.h"
 #include "misc.h"
+#include "player.h"
 
+// variables from sys/time.h used for finding elapsed time
+struct timeval t1, t2;
+int elapsedTime;
 
+// creates a string variable input to hold user input (max 100 characters)
 static char input[100];
 
 char name[50];
 
-void displayEntry1(){
-  printf("Enter Name\n");
+void displayEntry1() {
+    printf("Enter Name\n");
 }
-static int playerName(){//stores the name of the player in name
-  printf("> ");
-  fgets(name, sizeof(name), stdin);
-  if(*name == ' ' || name[1] == '\0' ){//make sure the name is an actual name and not just a space or a NULL
-    printf("Please Enter Name\n");
-    return 1;
-  }
-  return 0;
+
+static int playerName() { // stores the name of the player in name
+    printf("> ");
+    fgets(name, sizeof(name), stdin);
+    if (*name == ' ' || name[1] == '\0' ) { // make sure the name is an actual name and not just a space or a NULL
+        printf("Please Enter Name\n");
+        return 1;
+    }
+    return 0;
 }
+
+// displays first message at the beginning of the game
 void displayEntry2() {
     int i;
     char nameOfPlayer[50];
-    for(i = 0; name[i] != '\n'; i++){//erase the next line(\n) at the end of name
+    for (i = 0; name[i] != '\n'; i++) { //erase the next line(\n) at end of name
         nameOfPlayer[i] = name[i];
     }
 
     nameOfPlayer[i] = '\0';
+
     printf("%s, you wake up in a circular room.\n"
     "There are doors around you numbered 1 through 6.\n"
     "There is a locked panel in the center of the room with 6 locks.\n"
     "NOTE: If you are stuck, try typing 'help'!\n", nameOfPlayer);
 }
 
+// gets the input of the user from the standard in
 static int getInput() {
     printf("> ");
     return fgets(input, sizeof(input), stdin) != NULL;
 }
 
+// parses input and decides what to execute
 static int parseAndExecute() {
+    // split input into two parts a verb and a noun, verb dictates what command is executed
     char * verb = strtok(input, " \n");
-    char * noun = strtok(NULL, " \n");
+    char * noun = strtok(NULL, " \n");   
+    // checks for valid verb input   
     if (verb != NULL) {
-        // printf("%d\n", strcmp(input, "quit"));
-        if (!strcmp(verb, "quit")) {
+        // checks for various commands, if command is not found prints message at end
+        if (!strcmp(verb, "quit")) {            // if quit returns 0 to end main loop
             return 0;
-        } else if (!strcmp(verb, "look")){
-            executeLook(noun);
-        } else if (!strcmp(verb, "go")) {
+        } else if (!strcmp(verb, "examine")){       // definition in location.c
+            executeExamine(noun);
+        } else if (!strcmp(verb, "go")) {           // definition in location.c
             executeGo(noun);
-        } else if (!strcmp(verb, "help")) {
+        } else if (!strcmp(verb, "help")) {         // definition in misc.c
             executeHelp(noun);
+        } else if (!strcmp(verb, "take")){          // definition in object.c
+            executeTake(noun);
+        } else if (!strcmp(verb, "drop")) {         // definition in object.c
+            executeDrop(noun);
+        } else if (!strcmp(verb, "inventory")) {    // definition in player.c
+            executeInventory();
         } else {
             printf("I'm not sure what that means\n");
         }
     }
-    return 1;
+    return 1;   // returns 1 to continue loop
 }
 
+// main function consists mainly of game loop
 int main(void) {
+
+    // print intro message asking for name
     displayEntry1();
+    // gets player name
     while(playerName());
+    // prints intro to game
     displayEntry2();
-    while (getInput() && parseAndExecute());
+    // get time at start of program
+    gettimeofday(&t1, NULL);
+    // loop runs getInput and parseAndExecute which will continuously loop until quit command
+    while (getInput() && parseAndExecute()); 
+    //print exit message
     printf("Goodbye... for now...\n");
+    // get time at end of program
+    gettimeofday(&t2, NULL);
+    // find the difference between start time and end time
+    elapsedTime = (t2.tv_sec - t1.tv_sec);
+    // print the elapsed time
+    printf("Your time: %d seconds.\n", elapsedTime);
     return 0;
 }
+
