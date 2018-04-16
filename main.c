@@ -13,17 +13,14 @@
 // variables from sys/time.h used for finding elapsed time
 struct timeval t1, t2;
 int elapsedTime;
-
 // creates a string variable input to hold user input (max 100 characters)
 static char input[100];
-
+// creates a string variable to temporarily hold player name
 char name[50];
 
-void displayEntry1() {
-    printf("Enter Name\n");
-}
-
+// function to get players name and store it in player struct
 static int playerName() { // stores the name of the player in name
+    printf("Enter Name\n");
     printf("> ");
     fgets(name, sizeof(name), stdin);
     if (*name == ' ' || name[1] == '\0' ) { // make sure the name is an actual name and not just a space or a NULL
@@ -34,19 +31,18 @@ static int playerName() { // stores the name of the player in name
 }
 
 // displays first message at the beginning of the game
-void displayEntry2() {
+void displayEntry() {
     int i;
-    char nameOfPlayer[50];
     for (i = 0; name[i] != '\n'; i++) { //erase the next line(\n) at end of name
-        nameOfPlayer[i] = name[i];
+        player.name[i] = name[i];
     }
 
-    nameOfPlayer[i] = '\0';
+    player.name[i] = '\0';
 
     printf("%s, you wake up in a circular room.\n"
     "There are doors around you numbered 1 through 6.\n"
     "There is a locked panel in the center of the room with 6 locks.\n"
-    "NOTE: If you are stuck, try typing 'help'!\n", nameOfPlayer);
+    "NOTE: If you are stuck, try typing 'help'!\n", player.name);
 }
 
 // gets the input of the user from the standard in
@@ -87,12 +83,10 @@ static int parseAndExecute() {
 // main function consists mainly of game loop
 int main(void) {
 
-    // print intro message asking for name
-    displayEntry1();
     // gets player name
     while(playerName());
     // prints intro to game
-    displayEntry2();
+    displayEntry();
     // get time at start of program
     gettimeofday(&t1, NULL);
     // loop runs getInput and parseAndExecute which will continuously loop until quit command

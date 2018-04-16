@@ -7,6 +7,7 @@
 struct player {
     int playerScore;
     const int playerInventory;
+    char name[50];
 };
 
 // allows variables to be used elsewhere
