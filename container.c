@@ -10,7 +10,7 @@
 // creates array of containers
 struct container contain[] = {
 //  {description, name, ability to move, inventoryNumber, location, capacity}
-    {"a trapdoor with 6 locks", "trapdoor", false, 8, 0, 1},
+    {"a trapdoor with 6 locks", "trapdoor", false, 8, 0, 6},
     {"a small desk", "desk", false, 9, 4, 4}
 };
 
