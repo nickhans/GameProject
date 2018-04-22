@@ -18,6 +18,24 @@ struct location locs[] = {
     {"Room 6", "6", 6},
 };
 
+int roomOrder[4][6] = {
+    {1,2,3,4,5,6},
+    {2,4,6,1,3,5},
+    {4,3,6,2,5,1},
+    {5,1,2,6,1,4}
+};
+
+int currentRoomOrder = 0;
+// int newRoomOrder = 0;
+int roomOrderPick(int currentRoomNumber) {
+    if (currentRoomNumber == 3) {
+        currentRoomNumber = 0;
+    } else {
+        currentRoomNumber++;
+    }
+    return currentRoomNumber;
+}
+
 // variable for number of locations in array
 int numberOfLocations = (sizeof(locs) / sizeof(*locs));
 // creates boolean to check if player moved
@@ -25,6 +43,14 @@ bool playerMoved = false;
 // creates boolean to check if there is an object in the room
 bool hasObject = false;
 
+void randomizeRooms(int newRoomOrder) {
+    int j = 0;
+    for (int i = 1; i < numberOfLocations; i++) {
+        // printf("%s : %d\n", locs[i].name, roomOrder[newRoomOrder][j]);
+        locs[i].roomNumber = roomOrder[newRoomOrder][j];
+        j++;
+    }
+}
 // prints the description of the room the player is in
 void describeRoom() {
     printf("You are in %s.\n", locs[player.locationOfPlayer].description);
@@ -142,6 +168,10 @@ void executeGo (const char * noun) {
             printf("Going to center.\n");
             player.locationOfPlayer = center->roomNumber;
             describeRoom();
+            printf("Randomizing rooms...\n");
+            currentRoomOrder = roomOrderPick(currentRoomOrder);
+            // printf("New Room Order: %d\n", currentRoomOrder);
+            randomizeRooms(currentRoomOrder);
         }
     // if player is in center and there is a noun
     } else if (noun != NULL && player.locationOfPlayer == center->roomNumber) {
