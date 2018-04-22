@@ -20,6 +20,11 @@ static char input[100];
 // creates a string variable to temporarily hold player name
 char name[50];
 
+bool hasCircle = false;
+bool hasSquare = false;
+bool hasTriangle = false;
+bool hasStar = false;
+
 // function to get players name and store it in player struct
 static int playerName() { // stores the name of the player in name
     printf("Enter Name\n");
@@ -43,20 +48,33 @@ void displayEntry() {
 
     printf("%s, you wake up in a circular room.\n"
     "There are doors around you numbered 1 through 6.\n"
-    "There is a locked panel in the center of the room with 6 locks.\n"
+    "There is a locked panel in the center of the room with 4 different shapes, \n"
+    "a square, a circle, a triangle, and a star.\n"
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
 }
 
 bool didWin() {
-    int keyCount = 0;
     for (int i = 0; i < numberOfObjects; i++) {
-        if (!strcmp(objs[i].objName, "key") && objs[i].locationOfObject == trapdoor->containInventory) {
-            keyCount++;
+        if (!strcmp(objs[i].objName, "circle") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasCircle = true;
+        }
+        if (!strcmp(objs[i].objName, "square") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasSquare = true;
+        }
+        if (!strcmp(objs[i].objName, "triangle") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasTriangle = true;
+        }
+        if (!strcmp(objs[i].objName, "star") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasStar = true;
         }
     }
-    if (keyCount == trapdoor->containCapacity) {
+    if (hasCircle && hasSquare && hasTriangle && hasStar) {
         return true;
     } else {
+        hasCircle = false;
+        hasSquare = false;
+        hasTriangle = false;
+        hasStar = false;
         return false;
     }
 }
