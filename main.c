@@ -14,7 +14,6 @@
 
 // variables from sys/time.h used for finding elapsed time
 struct timeval t1, t2;
-int elapsedTime;
 // creates a string variable input to hold user input (max 100 characters)
 static char input[100];
 // creates a string variable to temporarily hold player name
@@ -48,7 +47,7 @@ void displayEntry() {
 
     printf("%s, you wake up in a circular room.\n"
     "There are doors around you numbered 1 through 6.\n"
-    "There is a locked panel in the center of the room with 4 different shapes, \n"
+    "There is a locked panel in the center of the room \nwith 4 different shapes, "
     "a square, a circle, a triangle, and a star.\n"
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
 }
@@ -77,6 +76,12 @@ bool didWin() {
         hasStar = false;
         return false;
     }
+}
+
+void formatAndDisplayTime(int time) {
+    int minutes = time / 60;
+    int seconds = time % 60;
+    printf("Your time: %d min %d sec\n", minutes, seconds);
 }
 
 void displayQuit() {
@@ -148,9 +153,9 @@ int main(void) {
     // get time at end of program
     gettimeofday(&t2, NULL);
     // find the difference between start time and end time
-    elapsedTime = (t2.tv_sec - t1.tv_sec);
+    int elapsedTime = (t2.tv_sec - t1.tv_sec);
     // print the elapsed time
-    printf("Your time: %d seconds.\n", elapsedTime);
+    formatAndDisplayTime(elapsedTime);
     return 0;
 }
 
