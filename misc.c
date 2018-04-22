@@ -6,7 +6,7 @@
 void executeHelp(const char * noun) {
     // if there is no noun print list of commands
     if (noun == NULL) {
-        printf("The goal of this game is to find 6 keys and put them in the trapdoor in the center room.\n"
+        printf("The goal of this game is to find 6 keys and to put them\n in the trapdoor in the center room.\n"
             "Some objects can hold other objects, we will call these containers.\n"
             "List of Commands:\n"
                 "go             examine\n"
@@ -45,10 +45,11 @@ void executeHelp(const char * noun) {
     } else if (!strcmp(noun, "put")) {
         printf("Use this command to put the object in your inventory into a container.\n"
                 "This command needs only the container you want to put your object in.\n"
-                "Example: 'put <container>' *YOU MUST BE HOLDING AN OBJECT TO USE THIS COMMAND*\n");
+                "Example: 'put <container>'\n"
+                "Note: You must be holding an object to use this command.\n");
     } else if (!strcmp(noun, "remove")) {
         printf("Use this command to remove an object from a container and put it into your inventory.\n"
-                "Specify the item you want to remove and it will next prompt which container you want to remove from.\n"
+                "Specify the item you want to remove and it will next prompt \nwhich container you want to remove from.\n"
                 "Example: 'remove <object>' then it will prompt for which container.\n");
     } else {
         printf("Please ask for help with a valid command.\n");
