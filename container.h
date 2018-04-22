@@ -12,6 +12,9 @@ struct container {
     int locationOfContainer;
 };
 
+// allows functions to be used elsewhere
+extern void executePut(const char * noun);
+
 // allows variables to be used elsewhere
 extern struct container contain[];
 extern int numberOfContainers;

@@ -9,6 +9,7 @@
 #include "object.h"
 #include "misc.h"
 #include "player.h"
+#include "container.h"
 
 // variables from sys/time.h used for finding elapsed time
 struct timeval t1, t2;
@@ -73,6 +74,8 @@ static int parseAndExecute() {
             executeDrop(noun);
         } else if (!strcmp(verb, "inventory")) {    // definition in player.c
             executeInventory();
+        } else if (!strcmp(verb, "put")) {
+            executePut(noun);
         } else {
             printf("I'm not sure what that means\n");
         }
