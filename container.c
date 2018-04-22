@@ -60,6 +60,7 @@ void executePut(const char * noun) {
                     return;
                 } else {
                     printf("The %s is full! An object must be removed before one can be placed!\n", contain[i].containName);
+                    objectPlaced = true;
                 }
             }
         }
