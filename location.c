@@ -25,20 +25,6 @@ bool playerMoved = false;
 // creates boolean to check if there is an object in the room
 bool hasObject = false;
 
-bool isObject(const char * noun) {
-    for (int i = 0; i < numberOfObjects; i++) {
-        if (!strcmp(noun, objs[i].objName)) return true;
-    }
-    return false;
-}
-
-bool isContainer(const char * noun) {
-    for (int i = 0; i < numberOfContainers; i++) {
-        if (!strcmp(noun, contain[i].containName)) return true;
-    }
-    return false;
-}
-
 // prints the description of the room the player is in
 void describeRoom() {
     printf("You are in %s.\n", locs[player.locationOfPlayer].description);
