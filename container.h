@@ -10,6 +10,7 @@ struct container {
     const bool canMove;
     const int containInventory; // starting after 7 (player)
     int locationOfContainer;
+    int containCapacity;
 };
 
 // allows functions to be used elsewhere
