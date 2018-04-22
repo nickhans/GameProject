@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <string.h>
 #include <sys/time.h> // used to find elapsed time
@@ -46,6 +47,29 @@ void displayEntry() {
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
 }
 
+bool didWin() {
+    int keyCount = 0;
+    for (int i = 0; i < numberOfObjects; i++) {
+        if (!strcmp(objs[i].objName, "key") && objs[i].locationOfObject == trapdoor->containInventory) {
+            keyCount++;
+        }
+    }
+    if (keyCount == trapdoor->containCapacity) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void displayQuit() {
+    //print exit message
+    printf("Goodbye... for now...\n");
+}
+
+void displayEnd() {
+    printf("Congrats you escaped!\n");
+}
+
 // gets the input of the user from the standard in
 static int getInput() {
     printf("> ");
@@ -60,7 +84,8 @@ static int parseAndExecute() {
     // checks for valid verb input   
     if (verb != NULL) {
         // checks for various commands, if command is not found prints message at end
-        if (!strcmp(verb, "quit")) {            // if quit returns 0 to end main loop
+        if (!strcmp(verb, "quit")) { 
+            displayQuit();           // if quit returns 0 to end main loop
             return 0;
         } else if (!strcmp(verb, "examine")){       // definition in location.c
             executeExamine(noun);
@@ -76,6 +101,12 @@ static int parseAndExecute() {
             executeInventory();
         } else if (!strcmp(verb, "put")) {
             executePut(noun);
+            if (!strcmp(noun, "trapdoor")) {
+                if (didWin()) {
+                    displayEnd();
+                    return 0;
+                }
+            }
         } else if (!strcmp(verb, "remove")) {
             executeRemove(noun);
         } else {
@@ -96,8 +127,6 @@ int main(void) {
     gettimeofday(&t1, NULL);
     // loop runs getInput and parseAndExecute which will continuously loop until quit command
     while (getInput() && parseAndExecute()); 
-    //print exit message
-    printf("Goodbye... for now...\n");
     // get time at end of program
     gettimeofday(&t2, NULL);
     // find the difference between start time and end time

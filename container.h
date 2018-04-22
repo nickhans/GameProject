@@ -13,6 +13,8 @@ struct container {
     int containCapacity;
 };
 
+#define trapdoor (contain + 0)
+
 // allows functions to be used elsewhere
 extern void executePut(const char * noun);
 extern void executeRemove(const char * noun);
