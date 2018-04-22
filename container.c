@@ -54,7 +54,7 @@ void executePut(const char * noun) {
                 // checks if the amount of objects in the container is less than the capacity
                 if (objectsInContainer(contain[i].containInventory) < contain[i].containCapacity) {
                     // change locationOfObject to containInventory
-                    printf("You placed %s in %s.\n", objs[getHeldObject()].objName, contain[i].containName);
+                    printf("You put the %s in %s.\n", objs[getHeldObject()].objName, contain[i].containName);
                     objs[getHeldObject()].locationOfObject = contain[i].containInventory;
                     objectPlaced = true;
                     return;
@@ -94,8 +94,7 @@ void executeRemove(const char * noun) {
     // if the player is not holding an object
     if (!checkPlayer()) {
         // gets input from player for container name
-        char * removalTemp;
-        removalTemp = (char *) malloc(100); // allocates memory for user response
+        char removalTemp[50];
         printf("Remove from where?\n> ");
         fgets(removalTemp, sizeof(removalTemp), stdin);
         char * removal = strtok(removalTemp, " \n"); // reformats the player input into a useable format
@@ -126,7 +125,6 @@ void executeRemove(const char * noun) {
             if (!containerInRoom) printf("%s is not in this room!\n", removal);
             containerInRoom = false;    // reset containerInRoom
             objectInContainer = false;  // reset objectInContainer
-            free(removalTemp); // free space usedd for user input
         }
     // if player is holding an object   
     } else {
