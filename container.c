@@ -11,6 +11,12 @@ struct container contain[] = {
 int numberOfContainers = (sizeof(contain) / sizeof(*contain));
 
 void executePut(const char * noun) {
-    
+    // check if object to put is being held
+
+    // ask for container
+
+    // check if container is in room
+
+    // change locationOfObject to containInventory
 }
 
