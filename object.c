@@ -18,6 +18,13 @@ int numberOfObjects = (sizeof(objs) / sizeof(*objs));
 // bool to note it an object was taken
 bool objectTaken = false;
 
+// function to check if given noun is an object
+bool isObject(const char * noun) {
+    for (int i = 0; i < numberOfObjects; i++) {
+        if (!strcmp(noun, objs[i].objName)) return true;
+    }
+    return false;
+}
 // function to take object and put it in player inventory
 void executeTake(const char * noun) {
     // if player is carrying an object print message

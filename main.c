@@ -76,6 +76,8 @@ static int parseAndExecute() {
             executeInventory();
         } else if (!strcmp(verb, "put")) {
             executePut(noun);
+        } else if (!strcmp(verb, "remove")) {
+            executeRemove(noun);
         } else {
             printf("I'm not sure what that means\n");
         }
