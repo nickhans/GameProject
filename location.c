@@ -23,7 +23,21 @@ int numberOfLocations = (sizeof(locs) / sizeof(*locs));
 // creates boolean to check if player moved
 bool playerMoved = false;
 // creates boolean to check if there is an object in the room
-bool objectInRoom = false;
+bool hasObject = false;
+
+bool isObject(const char * noun) {
+    for (int i = 0; i < numberOfObjects; i++) {
+        if (!strcmp(noun, objs[i].objName)) return true;
+    }
+    return false;
+}
+
+bool isContainer(const char * noun) {
+    for (int i = 0; i < numberOfContainers; i++) {
+        if (!strcmp(noun, contain[i].containName)) return true;
+    }
+    return false;
+}
 
 // prints the description of the room the player is in
 void describeRoom() {
@@ -42,42 +56,54 @@ void executeExamine(const char * noun) {
             // checks for object in room
             if (player.locationOfPlayer == objs[i].locationOfObject) {
                 printf("-%s\n", objs[i].objName);
-                objectInRoom = true;
+                hasObject = true;
             }
         }
         for (int i = 0; i < numberOfContainers; i++) {
             // checks for containers in room
             if (player.locationOfPlayer == contain[i].locationOfContainer) {
                 printf("-%s\n", contain[i].containName);
-                objectInRoom = true;
+                hasObject = true;
             }
         }
-        if (!objectInRoom) printf("-nothing\n");
-        objectInRoom = false; // reset objectInRoom to false
+        if (!hasObject) printf("-nothing\n");
+        hasObject = false; // reset hasObject to false
     // if there is a noun but it isn't room
     } else if (noun != NULL) {
-        for (int i = 0; i < numberOfObjects; i++) {
-            // checks if the noun is an object in the room or in the player inventory
-            if (!strcmp(noun, objs[i].objName) && ((player.locationOfPlayer == objs[i].locationOfObject) 
-                    || (objs[i].locationOfObject == 7))) {
-                // prints description of object
-                printf("This is %s.\n", objs[i].objDescription);
-                objectInRoom = true;
-                break;
+        if (isObject(noun)) {
+            for (int i = 0; i < numberOfObjects; i++) {
+                // checks if the noun is an object in the room or in the player inventory
+                if (!strcmp(noun, objs[i].objName) && ((player.locationOfPlayer == objs[i].locationOfObject) 
+                        || (objs[i].locationOfObject == 7))) {
+                    // prints description of object
+                    printf("This is %s.\n", objs[i].objDescription);
+                    break;
+                }
             }
-        }
-        for (int i = 0; i < numberOfContainers; i++) {
-            // checks if the noun is a container in the room
-            if (!strcmp(noun, contain[i].containName) && (player.locationOfPlayer == contain[i].locationOfContainer)) {
-                // prints the description of container
-                printf("This is %s.\n", contain[i].containDesc);
-                objectInRoom = true;
-                break;
+        } else if (isContainer(noun)) {
+            for (int i = 0; i < numberOfContainers; i++) {
+                // checks if the noun is a container in the room
+                if (!strcmp(noun, contain[i].containName) && (player.locationOfPlayer == contain[i].locationOfContainer)) {
+                    // prints the description of container
+                    printf("This is %s.\n", contain[i].containDesc);
+                    printf("The %s contains:\n", contain[i].containName);
+                    for (int j = 0; j < numberOfObjects; j++) {
+                        if (objs[j].locationOfObject == contain[i].containInventory) {
+                            printf("-%s\n", objs[j].objName);
+                            hasObject = true;
+                        }
+                    }
+                    if (!hasObject) printf("-nothing\n");
+                    hasObject = false; 
+                    break;
+                }
             }
+            
+        } else {
+            // if the object isn't found print that the object isn't in room
+            printf("I don't see that %s in this room.\n", noun);
+            hasObject = false;   // reset hasObject to false
         }
-        // if the object isn't found print that the object isn't in room
-        if (!objectInRoom) printf("I don't see that object in this room.\n");
-        objectInRoom = false;   // reset objectInRoom to false
     // if there is no noun print messages
     } else {
         printf("I don't understand what you want to see.\n");
