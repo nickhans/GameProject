@@ -18,15 +18,27 @@ struct location locs[] = {
     {"Room 6", "6", 6},
 };
 
+// different room arrangements for outside rooms
 int roomOrder[4][6] = {
     {1,2,3,4,5,6},
     {2,4,6,1,3,5},
     {4,3,6,2,5,1},
     {5,1,2,6,1,4}
 };
-
+// variable for current room set
 int currentRoomOrder = 0;
-// int newRoomOrder = 0;
+// variable for array max of rooms
+int roomMaxCount = 5;
+// variable for min array spot of rooms
+int roomMinCount = 0;
+// variable for number of locations in array
+int numberOfLocations = (sizeof(locs) / sizeof(*locs));
+// creates boolean to check if player moved
+bool playerMoved = false;
+// creates boolean to check if there is an object in the room
+bool hasObject = false;
+
+// function for changing the roomOrder set
 int roomOrderPick(int currentRoomNumber) {
     if (currentRoomNumber == 3) {
         currentRoomNumber = 0;
@@ -35,14 +47,7 @@ int roomOrderPick(int currentRoomNumber) {
     }
     return currentRoomNumber;
 }
-
-// variable for number of locations in array
-int numberOfLocations = (sizeof(locs) / sizeof(*locs));
-// creates boolean to check if player moved
-bool playerMoved = false;
-// creates boolean to check if there is an object in the room
-bool hasObject = false;
-
+// function for changing roomNumbers in locs[]
 void randomizeRooms(int newRoomOrder) {
     int j = 0;
     for (int i = 1; i < numberOfLocations; i++) {
@@ -50,6 +55,14 @@ void randomizeRooms(int newRoomOrder) {
         locs[i].roomNumber = roomOrder[newRoomOrder][j];
         j++;
     }
+}
+
+// function to find the array location of player in the roomOrder array returns -1 if in middle room
+int findCurrentLocation() {
+    for (int i = 0; i < numberOfLocations; i++) {
+        if (player.locationOfPlayer == locs[i].roomNumber) return i - 1;
+    }
+    return -1;
 }
 // prints the description of the room the player is in
 void describeRoom() {
@@ -128,10 +141,10 @@ void executeExamine(const char * noun) {
 void executeGo (const char * noun) {
     // if noun is cw (clockwise)
     if (noun != NULL && !strcmp(noun, "cw")) {
-        // if player.locationOfPlayer is in room 6 next move to room 1
-        if (player.locationOfPlayer == room6->roomNumber) {
+        // if player.locationOfPlayer is in the last room in roomOrder next move to first room in roomOrder
+        if (findCurrentLocation() == roomMaxCount) {
             printf("Going clockwise.\n");
-            player.locationOfPlayer = room1->roomNumber;
+            player.locationOfPlayer = roomOrder[currentRoomOrder][roomMinCount];
             describeRoom();
         // if player is in center error message
         } else if (player.locationOfPlayer == center->roomNumber){
@@ -139,15 +152,15 @@ void executeGo (const char * noun) {
         // move to the next clockwise room by incrementing player position
         } else {
             printf("Going clockwise.\n");
-            player.locationOfPlayer++;
+            player.locationOfPlayer = roomOrder[currentRoomOrder][findCurrentLocation() + 1];
             describeRoom();
         }
     // if noun is ccw (counter-clockwise)
     } else if (noun != NULL && !strcmp(noun , "ccw")) {
         // if player is in room 1 move to room 6
-        if (player.locationOfPlayer == room1->roomNumber) {
+        if (findCurrentLocation() == roomMinCount) {
             printf("Going counter-clockwise.\n");
-            player.locationOfPlayer = room6->roomNumber;
+            player.locationOfPlayer = roomOrder[currentRoomOrder][roomMaxCount];
             describeRoom();
         // if player is in center print error message
         } else if (player.locationOfPlayer == center->roomNumber){
@@ -155,7 +168,7 @@ void executeGo (const char * noun) {
         // move to the next counter-clockwise room by decrementing player position
         } else {
             printf("Going counter-clockwise.\n");
-            player.locationOfPlayer--;
+            player.locationOfPlayer = roomOrder[currentRoomOrder][findCurrentLocation() - 1];
             describeRoom();
         }
     // if noun is center
