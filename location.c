@@ -70,6 +70,7 @@ void executeExamine(const char * noun) {
         hasObject = false; // reset hasObject to false
     // if there is a noun but it isn't room
     } else if (noun != NULL) {
+        // if examined noun is an object
         if (isObject(noun)) {
             for (int i = 0; i < numberOfObjects; i++) {
                 // checks if the noun is an object in the room or in the player inventory
@@ -80,12 +81,13 @@ void executeExamine(const char * noun) {
                     break;
                 }
             }
+        // if examined noun is a container
         } else if (isContainer(noun)) {
             for (int i = 0; i < numberOfContainers; i++) {
                 // checks if the noun is a container in the room
                 if (!strcmp(noun, contain[i].containName) && (player.locationOfPlayer == contain[i].locationOfContainer)) {
                     // prints the description of container
-                    printf("This is %s.\n", contain[i].containDesc);
+                    printf("This is %s, the %s can hold %d objects.\n", contain[i].containDesc, contain[i].containName, contain[i].containCapacity);
                     printf("The %s contains:\n", contain[i].containName);
                     for (int j = 0; j < numberOfObjects; j++) {
                         if (objs[j].locationOfObject == contain[i].containInventory) {
@@ -98,7 +100,7 @@ void executeExamine(const char * noun) {
                     break;
                 }
             }
-            
+        // if examined noun is neither an object or a container
         } else {
             // if the object isn't found print that the object isn't in room
             printf("I don't see that %s in this room.\n", noun);
