@@ -11,6 +11,7 @@
 #include "misc.h"
 #include "player.h"
 #include "container.h"
+#include "score.h"
 
 // variables from sys/time.h used for finding elapsed time
 struct timeval t1, t2;
@@ -154,8 +155,13 @@ int main(void) {
     gettimeofday(&t2, NULL);
     // find the difference between start time and end time
     int elapsedTime = (t2.tv_sec - t1.tv_sec);
+    player.playerTime = elapsedTime;
     // print the elapsed time
     formatAndDisplayTime(elapsedTime);
+    if (didWin()) {
+        printf("Checking for highscore...\n");
+        saveHighscore();
+    }
     return 0;
 }
 
