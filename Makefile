@@ -14,3 +14,4 @@ TAGS: $(SRC) $(HDR)
 .PHONY: clean
 clean:
 	$(RM) $(PROG) $(OBJ)
+	
