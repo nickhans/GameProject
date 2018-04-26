@@ -8,6 +8,7 @@ struct player {
     int locationOfPlayer;
     const int playerInventory;
     char name[50];
+    int playerTime;
 };
 
 // allows variables to be used elsewhere

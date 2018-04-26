@@ -6,7 +6,8 @@
 struct player player = {
     0,          // player location (starts in center)
     7,          // playerInventory
-    "Player"    // player name (starts default player)
+    "Player",   // player name (starts default player)
+    0           // player time
 };
 
 // function to check if player is carrying an object, returns a boolean true if player has object

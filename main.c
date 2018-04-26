@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <string.h>
 #include <sys/time.h> // used to find elapsed time
@@ -9,14 +10,20 @@
 #include "object.h"
 #include "misc.h"
 #include "player.h"
+#include "container.h"
+#include "score.h"
 
 // variables from sys/time.h used for finding elapsed time
 struct timeval t1, t2;
-int elapsedTime;
 // creates a string variable input to hold user input (max 100 characters)
 static char input[100];
 // creates a string variable to temporarily hold player name
 char name[50];
+
+bool hasCircle = false;
+bool hasSquare = false;
+bool hasTriangle = false;
+bool hasStar = false;
 
 // function to get players name and store it in player struct
 static int playerName() { // stores the name of the player in name
@@ -41,8 +48,50 @@ void displayEntry() {
 
     printf("%s, you wake up in a circular room.\n"
     "There are doors around you numbered 1 through 6.\n"
-    "There is a locked panel in the center of the room with 6 locks.\n"
+    "There is a locked panel in the center of the room \nwith 4 different shapes, "
+    "a square, a circle, a triangle, and a star.\n"
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
+}
+
+bool didWin() {
+    for (int i = 0; i < numberOfObjects; i++) {
+        if (!strcmp(objs[i].objName, "circle") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasCircle = true;
+        }
+        if (!strcmp(objs[i].objName, "square") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasSquare = true;
+        }
+        if (!strcmp(objs[i].objName, "triangle") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasTriangle = true;
+        }
+        if (!strcmp(objs[i].objName, "star") && objs[i].locationOfObject == trapdoor->containInventory) {
+            hasStar = true;
+        }
+    }
+    if (hasCircle && hasSquare && hasTriangle && hasStar) {
+        return true;
+    } else {
+        hasCircle = false;
+        hasSquare = false;
+        hasTriangle = false;
+        hasStar = false;
+        return false;
+    }
+}
+
+void formatAndDisplayTime(int time) {
+    int minutes = time / 60;
+    int seconds = time % 60;
+    printf("Your time: %d min %d sec\n", minutes, seconds);
+}
+
+void displayQuit() {
+    //print exit message
+    printf("Goodbye... for now...\n");
+}
+
+void displayEnd() {
+    printf("Congrats you escaped!\n");
 }
 
 // gets the input of the user from the standard in
@@ -59,7 +108,8 @@ static int parseAndExecute() {
     // checks for valid verb input   
     if (verb != NULL) {
         // checks for various commands, if command is not found prints message at end
-        if (!strcmp(verb, "quit")) {            // if quit returns 0 to end main loop
+        if (!strcmp(verb, "quit")) { 
+            displayQuit();           // if quit returns 0 to end main loop
             return 0;
         } else if (!strcmp(verb, "examine")){       // definition in location.c
             executeExamine(noun);
@@ -73,6 +123,16 @@ static int parseAndExecute() {
             executeDrop(noun);
         } else if (!strcmp(verb, "inventory")) {    // definition in player.c
             executeInventory();
+        } else if (!strcmp(verb, "put")) {
+            executePut(noun);
+            if (!strcmp(noun, "trapdoor")) {
+                if (didWin()) {
+                    displayEnd();
+                    return 0;
+                }
+            }
+        } else if (!strcmp(verb, "remove")) {
+            executeRemove(noun);
         } else {
             printf("I'm not sure what that means\n");
         }
@@ -91,14 +151,17 @@ int main(void) {
     gettimeofday(&t1, NULL);
     // loop runs getInput and parseAndExecute which will continuously loop until quit command
     while (getInput() && parseAndExecute()); 
-    //print exit message
-    printf("Goodbye... for now...\n");
     // get time at end of program
     gettimeofday(&t2, NULL);
     // find the difference between start time and end time
-    elapsedTime = (t2.tv_sec - t1.tv_sec);
+    int elapsedTime = (t2.tv_sec - t1.tv_sec);
+    player.playerTime = elapsedTime;
     // print the elapsed time
-    printf("Your time: %d seconds.\n", elapsedTime);
+    formatAndDisplayTime(elapsedTime);
+    if (didWin()) {
+        printf("Checking for highscore...\n");
+        saveHighscore();
+    }
     return 0;
 }
 

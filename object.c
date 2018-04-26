@@ -4,10 +4,14 @@
 #include "object.h"
 #include "location.h"
 #include "player.h"
+#include "container.h"
 
 // creates array of objects
 struct object objs[] = {
-    {"a small golden key", "key", 2},
+    {"a small ebony circle", "circle", 0},
+    {"a small silver square", "square", 0},
+    {"a small bronze triangle", "triangle", 0},
+    {"a small golden star", "star", 0},
     {"an old leather book", "book", 2},
     {"a wooden chair", "chair", 4},
     {"a ceramic tile", "tile", 5}
@@ -18,6 +22,13 @@ int numberOfObjects = (sizeof(objs) / sizeof(*objs));
 // bool to note it an object was taken
 bool objectTaken = false;
 
+// function to check if given noun is an object
+bool isObject(const char * noun) {
+    for (int i = 0; i < numberOfObjects; i++) {
+        if (!strcmp(noun, objs[i].objName)) return true;
+    }
+    return false;
+}
 // function to take object and put it in player inventory
 void executeTake(const char * noun) {
     // if player is carrying an object print message
@@ -28,15 +39,23 @@ void executeTake(const char * noun) {
         for (int i = 0; i < numberOfObjects; i++) {
             // for each object compare the name to the noun input
             // if they match change object location to player inventory
-            if (!strcmp(noun, objs[i].objName)) {
+            if (!strcmp(noun, objs[i].objName) && objs[i].locationOfObject == player.locationOfPlayer) {
                 objs[i].locationOfObject = player.playerInventory;
                 printf("%s taken\n", objs[i].objName);
                 objectTaken = true;
                 break;
+            } else if (isContainer(noun)) {
+                for (int j = 0; j < numberOfContainers; j++) {
+                    if (contain[j].locationOfContainer == player.locationOfPlayer) {
+                        printf("That is a container and cannot be picked up!\n");
+                        return;
+                    }
+                }
             }
         }
         // if no objects were taken print that the object isn't here
-        if (!objectTaken) printf("That object is not here.\n");
+        if (!objectTaken) printf("That object is not in this room.\n");
+        objectTaken = false; // re-init objectTaken
     // if there is no noun print message
     } else {
         printf("I'm not sure what you want to take.\n");
