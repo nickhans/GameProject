@@ -47,6 +47,7 @@ void executeTake(const char * noun) {
         }
         // if no objects were taken print that the object isn't here
         if (!objectTaken) printf("That object is not here.\n");
+        objectTaken = false; // re-init objectTaken
     // if there is no noun print message
     } else {
         printf("I'm not sure what you want to take.\n");
