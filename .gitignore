@@ -51,6 +51,6 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-Executable from compilation
+Project Specific Ignores
 game
 highscore.txt

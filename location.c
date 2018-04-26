@@ -181,9 +181,8 @@ void executeGo (const char * noun) {
             printf("Going to center.\n");
             player.locationOfPlayer = center->roomNumber;
             describeRoom();
-            printf("Randomizing rooms...\n");
+            // randomizes outside rooms
             currentRoomOrder = roomOrderPick(currentRoomOrder);
-            // printf("New Room Order: %d\n", currentRoomOrder);
             randomizeRooms(currentRoomOrder);
         }
     // if player is in center and there is a noun
