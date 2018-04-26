@@ -38,7 +38,7 @@ void executeTake(const char * noun) {
         for (int i = 0; i < numberOfObjects; i++) {
             // for each object compare the name to the noun input
             // if they match change object location to player inventory
-            if (!strcmp(noun, objs[i].objName)) {
+            if (!strcmp(noun, objs[i].objName) && objs[i].locationOfObject == player.locationOfPlayer) {
                 objs[i].locationOfObject = player.playerInventory;
                 printf("%s taken\n", objs[i].objName);
                 objectTaken = true;
