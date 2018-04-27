@@ -11,7 +11,10 @@
 struct container contain[] = {
 //  {description, name, ability to move, inventoryNumber, location, capacity}
     {"a trapdoor with 4 different shaped holes - square, circle, triangle, and star", "trapdoor", false, 8, 0, 4},
-    {"a small desk", "desk", false, 9, 4, 4}
+    {"a small desk", "desk", false, 9, 2, 4},
+    {"a large bookshelf", "bookshelf", false, 10, 4, 1},
+    {"a well decorated christmas tree", "tree", false, 11, 5, 1},
+    {"a heavy robot", "robot", false, 12, 6, 1},
 };
 
 // creates an integer value of the number of containers
