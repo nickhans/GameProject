@@ -14,6 +14,10 @@ struct container {
 };
 
 #define trapdoor (contain + 0)
+#define desk (contain + 1)
+#define bookshelf (contain + 2)
+#define tree (contain + 3)
+#define robot (contain + 4)
 
 // allows functions to be used elsewhere
 extern bool executePut(const char * noun);
