@@ -10,6 +10,14 @@ struct object {
     int locationOfObject;
 };
 
+#define circle (objs + 0)
+#define square (objs + 1)
+#define triangle (objs + 2)
+#define star (objs + 3)
+#define book (objs + 4)
+#define chair (objs + 5)
+#define battery (objs + 6)
+
 // allows variables to be used elsewhere
 extern struct object objs[];
 extern int numberOfObjects;
