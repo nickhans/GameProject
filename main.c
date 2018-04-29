@@ -120,10 +120,14 @@ int main(void) {
     int elapsedTime = (t2.tv_sec - t1.tv_sec);
     player.playerTime = elapsedTime;
     // print the elapsed time
-    formatAndDisplayTime(elapsedTime);
+    
     if (didWin()) {
+        printf("Your time: ");
+        formatAndDisplayTime(elapsedTime);
         printf("Checking for highscore...\n");
         saveHighscore();
+    } else {
+        printHighscore();
     }
     return 0;
 }
