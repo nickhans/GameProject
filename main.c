@@ -95,7 +95,10 @@ static int parseAndExecute() {
             executeInventory();
         } else if (!strcmp(verb, "put")) {
             if (executePut(noun)) {
-                eventProcessing(noun);
+                if (eventProcessing(noun)) {
+                    displayEnd();
+                    return 0;
+                }
             }
         } else if (!strcmp(verb, "remove")) {
             executeRemove(noun);
