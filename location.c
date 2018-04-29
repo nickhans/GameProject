@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+// user made libraries
 #include "player.h"
 #include "location.h"
 #include "object.h"
@@ -9,6 +10,7 @@
 
 // creates an array of the locations in the game
 struct location locs[] = {
+//  {description, name, room number}
     {"a circular room. There are 6 doors around you", "center", 0},
     {"Room 1", "1", 1},
     {"Room 2", "2", 2},
@@ -19,11 +21,13 @@ struct location locs[] = {
 };
 
 // different room arrangements for outside rooms
-int roomOrder[4][6] = {
+int roomOrder[6][6] = {
     {1,2,3,4,5,6},
     {2,4,6,1,3,5},
     {4,3,6,2,5,1},
-    {5,1,2,6,3,4}
+    {5,1,2,6,3,4},
+    {3,2,1,6,5,4},
+    {6,5,1,3,4,2}
 };
 // variable for current room set
 int currentRoomOrder = 0;
@@ -40,7 +44,7 @@ bool hasObject = false;
 
 // function for changing the roomOrder set
 int roomOrderPick(int currentRoomNumber) {
-    if (currentRoomNumber == 3) {
+    if (currentRoomNumber == 5) {
         currentRoomNumber = 0;
     } else {
         currentRoomNumber++;
@@ -60,6 +64,7 @@ void randomizeRooms(int newRoomOrder) {
 // function to find the array location of player in the roomOrder array returns -1 if in middle room
 int findCurrentLocation() {
     for (int i = 0; i < numberOfLocations; i++) {
+        // returns i - 1 because the return value is used in an array where room 1 equals 0 in array
         if (player.locationOfPlayer == locs[i].roomNumber) return i - 1;
     }
     return -1;
@@ -91,6 +96,7 @@ void executeExamine(const char * noun) {
                 hasObject = true;
             }
         }
+        // if nothing is in the room
         if (!hasObject) printf("-nothing\n");
         hasObject = false; // reset hasObject to false
     // if there is a noun but it isn't room
@@ -104,6 +110,9 @@ void executeExamine(const char * noun) {
                     // prints description of object
                     printf("This is %s.\n", objs[i].objDescription);
                     break;
+                } else if (!strcmp(noun, objs[i].objName)) {
+                    printf("The %s is not in this room!\n", noun);
+                    return;
                 }
             }
         // if examined noun is a container
@@ -114,15 +123,20 @@ void executeExamine(const char * noun) {
                     // prints the description of container
                     printf("This is %s, the %s can hold %d objects.\n", contain[i].containDesc, contain[i].containName, contain[i].containCapacity);
                     printf("The %s contains:\n", contain[i].containName);
+                    // checks for objects in container and prints them
                     for (int j = 0; j < numberOfObjects; j++) {
                         if (objs[j].locationOfObject == contain[i].containInventory) {
                             printf("-%s\n", objs[j].objName);
                             hasObject = true;
                         }
                     }
+                    // if container has no objects prints nothing
                     if (!hasObject) printf("-nothing\n");
                     hasObject = false; 
                     break;
+                } else if (!strcmp(noun, contain[i].containName)) {
+                    printf("The %s is not in this room!\n", noun); 
+                    return;   
                 }
             }
         // if examined noun is neither an object or a container
@@ -130,11 +144,14 @@ void executeExamine(const char * noun) {
             // if the object isn't found print that the object isn't in room
             printf("I don't see that %s in this room.\n", noun);
             hasObject = false;   // reset hasObject to false
+            return;
         }
     // if there is no noun print messages
     } else {
         printf("I don't understand what you want to see.\n");
+        return;
     }
+    return;
 }
 
 // function for navigation

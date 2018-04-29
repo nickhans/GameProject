@@ -1,3 +1,4 @@
+This files has no effect on the game and has simply been used for managing game properties
 
 Locations:
 
@@ -11,3 +12,7 @@ Locations:
 7 - player inventory
 8 - trapdoor
 9 - desk
+10 - bookshelf
+11 - tree
+12 - robot
+13 = hidden

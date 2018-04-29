@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+
+// user made libraries
 #include "misc.h"
 
 // function to print help messages
@@ -41,16 +43,18 @@ void executeHelp(const char * noun) {
     } else if (!strcmp(noun, "inventory")) {
         printf("Use this command to check the inventory of the player.\n"
                 "This command only needs 'inventory'.\n");
-    // if noun is none of the above
+    // if noun is put print put help message
     } else if (!strcmp(noun, "put")) {
         printf("Use this command to put the object in your inventory into a container.\n"
                 "This command needs only the container you want to put your object in.\n"
                 "Example: 'put <container>'\n"
                 "Note: You must be holding an object to use this command.\n");
+    // if noun is remove print remove help message
     } else if (!strcmp(noun, "remove")) {
         printf("Use this command to remove an object from a container and put it into your inventory.\n"
                 "Specify the item you want to remove and it will next prompt \nwhich container you want to remove from.\n"
                 "Example: 'remove <object>' then it will prompt for which container.\n");
+    // if noun is none of the above commands
     } else {
         printf("Please ask for help with a valid command.\n");
     }

@@ -4,7 +4,6 @@
 #include <string.h>
 #include <sys/time.h> // used to find elapsed time
 
-
 // user made libraries
 #include "location.h"
 #include "object.h"
@@ -12,6 +11,7 @@
 #include "player.h"
 #include "container.h"
 #include "score.h"
+#include "event.h"
 
 // variables from sys/time.h used for finding elapsed time
 struct timeval t1, t2;
@@ -19,11 +19,6 @@ struct timeval t1, t2;
 static char input[100];
 // creates a string variable to temporarily hold player name
 char name[50];
-
-bool hasCircle = false;
-bool hasSquare = false;
-bool hasTriangle = false;
-bool hasStar = false;
 
 // function to get players name and store it in player struct
 static int playerName() { // stores the name of the player in name
@@ -53,43 +48,12 @@ void displayEntry() {
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
 }
 
-bool didWin() {
-    for (int i = 0; i < numberOfObjects; i++) {
-        if (!strcmp(objs[i].objName, "circle") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasCircle = true;
-        }
-        if (!strcmp(objs[i].objName, "square") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasSquare = true;
-        }
-        if (!strcmp(objs[i].objName, "triangle") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasTriangle = true;
-        }
-        if (!strcmp(objs[i].objName, "star") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasStar = true;
-        }
-    }
-    if (hasCircle && hasSquare && hasTriangle && hasStar) {
-        return true;
-    } else {
-        hasCircle = false;
-        hasSquare = false;
-        hasTriangle = false;
-        hasStar = false;
-        return false;
-    }
-}
-
-void formatAndDisplayTime(int time) {
-    int minutes = time / 60;
-    int seconds = time % 60;
-    printf("Your time: %d min %d sec\n", minutes, seconds);
-}
-
+//print exit message if game ends by quit
 void displayQuit() {
-    //print exit message
     printf("Goodbye... for now...\n");
 }
 
+// message to display if game ends by win
 void displayEnd() {
     printf("Congrats you escaped!\n");
 }
@@ -124,16 +88,18 @@ static int parseAndExecute() {
         } else if (!strcmp(verb, "inventory")) {    // definition in player.c
             executeInventory();
         } else if (!strcmp(verb, "put")) {
-            executePut(noun);
-            if (!strcmp(noun, "trapdoor")) {
-                if (didWin()) {
+            // if execute put returns true process event
+            if (executePut(noun)) {                 // definition in container.c
+                // if eventProcessing returns true then game has been won, display end, and exit loop
+                if (eventProcessing(noun)) {
                     displayEnd();
                     return 0;
                 }
             }
         } else if (!strcmp(verb, "remove")) {
-            executeRemove(noun);
+            executeRemove(noun);                    // definition in container.c
         } else {
+            // if verb != and commands
             printf("I'm not sure what that means\n");
         }
     }
@@ -155,12 +121,19 @@ int main(void) {
     gettimeofday(&t2, NULL);
     // find the difference between start time and end time
     int elapsedTime = (t2.tv_sec - t1.tv_sec);
+    // sets playerTime to elapsedTime (in seconds)
     player.playerTime = elapsedTime;
-    // print the elapsed time
-    formatAndDisplayTime(elapsedTime);
+    // checks if player won or quit
     if (didWin()) {
+        // display players time in min sec format
+        printf("Your time: ");
+        formatAndDisplayTime(elapsedTime);
+        // checks to see if the player got a high score and prints the high scores
         printf("Checking for highscore...\n");
         saveHighscore();
+    } else {
+        // if player quit prints current high scores
+        printHighscore();
     }
     return 0;
 }

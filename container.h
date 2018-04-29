@@ -13,10 +13,15 @@ struct container {
     int containCapacity;
 };
 
+// creates pointers to each member of contain array
 #define trapdoor (contain + 0)
+#define desk (contain + 1)
+#define bookshelf (contain + 2)
+#define tree (contain + 3)
+#define robot (contain + 4)
 
 // allows functions to be used elsewhere
-extern void executePut(const char * noun);
+extern bool executePut(const char * noun);
 extern void executeRemove(const char * noun);
 extern bool isContainer(const char * noun);
 // allows variables to be used elsewhere

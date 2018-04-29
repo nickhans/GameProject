@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// user made libraries
 #include "container.h"
 #include "player.h"
 #include "object.h"
@@ -11,7 +12,10 @@
 struct container contain[] = {
 //  {description, name, ability to move, inventoryNumber, location, capacity}
     {"a trapdoor with 4 different shaped holes - square, circle, triangle, and star", "trapdoor", false, 8, 0, 4},
-    {"a small desk", "desk", false, 9, 4, 4}
+    {"a small desk that seems to be missing it's chair", "desk", false, 9, 2, 4},
+    {"a large bookshelf with a book missing", "bookshelf", false, 10, 4, 1},
+    {"a well decorated christmas tree", "tree", false, 11, 5, 1},
+    {"a heavy robot that is missing it's battery", "robot", false, 12, 6, 1},
 };
 
 // creates an integer value of the number of containers
@@ -27,23 +31,25 @@ bool objectInContainer = false;
 int objectsInContainer(int inventoryNumber) {
     int objCount = 0;
     for (int i = 0; i < numberOfObjects; i++) {
-        if (inventoryNumber == objs[i].locationOfObject) objCount++;
+        // compares containers inventory number the location of all objects if equal increments object count
+        if (inventoryNumber == objs[i].locationOfObject) objCount++; 
     }
     return objCount;
 }
 // function to check if given noun is a container
 bool isContainer(const char * noun) {
     for (int i = 0; i < numberOfContainers; i++) {
+        // compares noun to all names of containers
         if (!strcmp(noun, contain[i].containName)) return true;
     }
     return false;
 }
 // mechanic for placing inventory item into a specified container
-void executePut(const char * noun) {
+bool executePut(const char * noun) {
     // if container is not specified
     if (!noun) {
         printf("You must specify what you want to put your item in!\n");
-        return;
+        return false;
     }
     // check if player is holding object
     else if (checkPlayer()) {
@@ -54,22 +60,30 @@ void executePut(const char * noun) {
                 // checks if the amount of objects in the container is less than the capacity
                 if (objectsInContainer(contain[i].containInventory) < contain[i].containCapacity) {
                     // change locationOfObject to containInventory
-                    printf("You put the %s in %s.\n", objs[getHeldObject()].objName, contain[i].containName);
+                    printf("You put the %s in the %s.\n", objs[getHeldObject()].objName, contain[i].containName);
                     objs[getHeldObject()].locationOfObject = contain[i].containInventory;
                     objectPlaced = true;
-                    return;
                 } else {
+                    // if container is full
                     printf("The %s is full! An object must be removed before one can be placed!\n", contain[i].containName);
                     objectPlaced = true;
                 }
             }
         }
-        if (!objectPlaced) printf("%s is not in this room.\n", noun);
-        objectPlaced = false; // re-init object placed
+        // if the object was not placed (unless was not placed due to container being full)
+        if (!objectPlaced) {
+            printf("%s is not in this room.\n", noun);
+            return false;
+        } else {
+            objectPlaced = false; // re-init object placed
+            return true;
+        }
     // if player is holding nothing
     } else {
         printf("You must be holding something to be able to put it in something!\n");
+        return false;
     }
+    return false;
 }
 // mechanic for removing object from container and putting it in player inventory
 void executeRemove(const char * noun) {
