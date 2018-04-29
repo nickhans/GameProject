@@ -21,11 +21,6 @@ static char input[100];
 // creates a string variable to temporarily hold player name
 char name[50];
 
-bool hasCircle = false;
-bool hasSquare = false;
-bool hasTriangle = false;
-bool hasStar = false;
-
 // function to get players name and store it in player struct
 static int playerName() { // stores the name of the player in name
     printf("Enter Name\n");
@@ -52,32 +47,6 @@ void displayEntry() {
     "There is a locked panel in the center of the room \nwith 4 different shapes, "
     "a square, a circle, a triangle, and a star.\n"
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
-}
-
-bool didWin() {
-    for (int i = 0; i < numberOfObjects; i++) {
-        if (!strcmp(objs[i].objName, "circle") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasCircle = true;
-        }
-        if (!strcmp(objs[i].objName, "square") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasSquare = true;
-        }
-        if (!strcmp(objs[i].objName, "triangle") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasTriangle = true;
-        }
-        if (!strcmp(objs[i].objName, "star") && objs[i].locationOfObject == trapdoor->containInventory) {
-            hasStar = true;
-        }
-    }
-    if (hasCircle && hasSquare && hasTriangle && hasStar) {
-        return true;
-    } else {
-        hasCircle = false;
-        hasSquare = false;
-        hasTriangle = false;
-        hasStar = false;
-        return false;
-    }
 }
 
 void formatAndDisplayTime(int time) {
@@ -127,12 +96,6 @@ static int parseAndExecute() {
         } else if (!strcmp(verb, "put")) {
             if (executePut(noun)) {
                 eventProcessing(noun);
-            }
-            if (!strcmp(noun, "trapdoor")) {
-                if (didWin()) {
-                    displayEnd();
-                    return 0;
-                }
             }
         } else if (!strcmp(verb, "remove")) {
             executeRemove(noun);
