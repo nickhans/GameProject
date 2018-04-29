@@ -74,6 +74,20 @@ examine room
 quit
 EOF
 
+run ./game <<EOF
+test_bot
+help
+help examine
+help go
+help take
+help drop
+help inventory
+help put
+help remove
+help asdas
+quit
+EOF
+
 
 
 
