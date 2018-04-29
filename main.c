@@ -12,6 +12,7 @@
 #include "player.h"
 #include "container.h"
 #include "score.h"
+#include "event.h"
 
 // variables from sys/time.h used for finding elapsed time
 struct timeval t1, t2;
@@ -124,7 +125,9 @@ static int parseAndExecute() {
         } else if (!strcmp(verb, "inventory")) {    // definition in player.c
             executeInventory();
         } else if (!strcmp(verb, "put")) {
-            executePut(noun);
+            if (executePut(noun)) {
+                eventProcessing(noun);
+            }
             if (!strcmp(noun, "trapdoor")) {
                 if (didWin()) {
                     displayEnd();
