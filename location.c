@@ -104,6 +104,9 @@ void executeExamine(const char * noun) {
                     // prints description of object
                     printf("This is %s.\n", objs[i].objDescription);
                     break;
+                } else if (!strcmp(noun, objs[i].objName)) {
+                    printf("The %s is not in this room!\n", noun);
+                    return;
                 }
             }
         // if examined noun is a container
@@ -123,6 +126,9 @@ void executeExamine(const char * noun) {
                     if (!hasObject) printf("-nothing\n");
                     hasObject = false; 
                     break;
+                } else if (!strcmp(noun, contain[i].containName)) {
+                    printf("The %s is not in this room!\n", noun); 
+                    return;   
                 }
             }
         // if examined noun is neither an object or a container
@@ -130,11 +136,14 @@ void executeExamine(const char * noun) {
             // if the object isn't found print that the object isn't in room
             printf("I don't see that %s in this room.\n", noun);
             hasObject = false;   // reset hasObject to false
+            return;
         }
     // if there is no noun print messages
     } else {
         printf("I don't understand what you want to see.\n");
+        return;
     }
+    return;
 }
 
 // function for navigation
