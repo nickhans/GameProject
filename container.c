@@ -57,7 +57,7 @@ void executePut(const char * noun) {
                 // checks if the amount of objects in the container is less than the capacity
                 if (objectsInContainer(contain[i].containInventory) < contain[i].containCapacity) {
                     // change locationOfObject to containInventory
-                    printf("You put the %s in %s.\n", objs[getHeldObject()].objName, contain[i].containName);
+                    printf("You put the %s in the %s.\n", objs[getHeldObject()].objName, contain[i].containName);
                     objs[getHeldObject()].locationOfObject = contain[i].containInventory;
                     objectPlaced = true;
                     return;
