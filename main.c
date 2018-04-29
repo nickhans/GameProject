@@ -49,12 +49,6 @@ void displayEntry() {
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
 }
 
-void formatAndDisplayTime(int time) {
-    int minutes = time / 60;
-    int seconds = time % 60;
-    printf("Your time: %d min %d sec\n", minutes, seconds);
-}
-
 void displayQuit() {
     //print exit message
     printf("Goodbye... for now...\n");
@@ -127,7 +121,7 @@ int main(void) {
     player.playerTime = elapsedTime;
     // print the elapsed time
     formatAndDisplayTime(elapsedTime);
-    if (true) {
+    if (didWin()) {
         printf("Checking for highscore...\n");
         saveHighscore();
     }
