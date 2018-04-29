@@ -8,10 +8,10 @@
 
 // creates array of objects
 struct object objs[] = {
-    {"a small ebony circle", "circle", 0},
-    {"a small silver square", "square", 0},
-    {"a small bronze triangle", "triangle", 0},
-    {"a small golden star", "star", 0},
+    {"a small ebony circle", "circle", 13},
+    {"a small silver square", "square", 13},
+    {"a small bronze triangle", "triangle", 13},
+    {"a small golden star", "star", 11},
     {"an old leather book", "book", 1},
     {"a wooden chair", "chair", 4},
     {"a powerful battery", "battery", 9}
