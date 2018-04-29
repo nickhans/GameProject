@@ -11,7 +11,7 @@
 // creates an array of the locations in the game
 struct location locs[] = {
 //  {description, name, room number}
-    {"a circular room. There are 6 doors around you numbered 1-6", "center", 0},
+    {"a circular room. There are 6 doors around you numbered 1 through 6", "center", 0},
     {"Room 1", "1", 1},
     {"Room 2", "2", 2},
     {"Room 3", "3", 3},
