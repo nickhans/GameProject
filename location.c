@@ -42,7 +42,7 @@ bool hasObject = false;
 
 // function for changing the roomOrder set
 int roomOrderPick(int currentRoomNumber) {
-    if (currentRoomNumber == 3) {
+    if (currentRoomNumber == 5) {
         currentRoomNumber = 0;
     } else {
         currentRoomNumber++;
