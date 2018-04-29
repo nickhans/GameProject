@@ -35,19 +35,31 @@ bool didWin() {
     }
 }
 
-void eventProcessing(const char * noun) {
+bool eventProcessing(const char * noun) {
     if (!strcmp(noun, "bookshelf")) {
-        printf("Was put in bookshelf");
+        if (book->locationOfObject == bookshelf->containInventory) {
+            circle->locationOfObject = bookshelf->locationOfContainer;
+            printf("A %s falls of of the bookshelf into the center of the room.\n", circle->objDescription);
+        }
     } else if (!strcmp(noun, "robot")) {
-        printf("Was put in robot");
+        if (battery->locationOfObject == robot->containInventory) {
+            square->locationOfObject = robot->locationOfContainer;
+            printf("The robot powers on and moves across the room revealing\n"
+            "a %s on the floor.\n", square->objDescription);
+        }
     } else if (!strcmp(noun, "desk")) {
-        printf("Was put in desk");
+        if (chair->locationOfObject == desk->containInventory) {
+            triangle->locationOfObject = desk->locationOfContainer;
+            printf("As you slide the chair into the desk a %s falls\nfrom under the chair onto the floor.", triangle->objDescription);
+        }
     } else if (!strcmp(noun, "trapdoor")) {
-        if (didWin()) {}
+        if (didWin()) {
+            return true;
+        }
     } else {
-        printf("Was put in other");
-        return;
+        return false;
     }
+    return false;
 }
 
 

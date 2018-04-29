@@ -1,6 +1,6 @@
 #ifndef event_h
 #define event_h
 
-extern void eventProcessing(const char * noun);
+extern bool eventProcessing(const char * noun);
 
 #endif
