@@ -38,17 +38,20 @@ bool didWin() {
 bool eventProcessing(const char * noun) {
     if (!strcmp(noun, "bookshelf")) {
         if (book->locationOfObject == bookshelf->containInventory) {
+            bookshelf->containDesc = "a large bookshelf with all of it's books";
             circle->locationOfObject = bookshelf->locationOfContainer;
             printf("%s falls off of the bookshelf into the center of the room.\n", circle->objDescription);
         }
     } else if (!strcmp(noun, "robot")) {
         if (battery->locationOfObject == robot->containInventory) {
+            robot->containDesc = "a heavy robot that is now fully powered";
             square->locationOfObject = robot->locationOfContainer;
             printf("The robot powers on and moves across the room revealing\n"
             "%s on the floor.\n", square->objDescription);
         }
     } else if (!strcmp(noun, "desk")) {
         if (chair->locationOfObject == desk->containInventory) {
+            desk->containDesc = "a small desk";
             triangle->locationOfObject = desk->locationOfContainer;
             printf("As you slide the chair into the desk %s falls\n"
             "from under the chair onto the floor.\n", triangle->objDescription);
