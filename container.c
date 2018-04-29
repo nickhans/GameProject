@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// user made libraries
 #include "container.h"
 #include "player.h"
 #include "object.h"
@@ -30,13 +31,15 @@ bool objectInContainer = false;
 int objectsInContainer(int inventoryNumber) {
     int objCount = 0;
     for (int i = 0; i < numberOfObjects; i++) {
-        if (inventoryNumber == objs[i].locationOfObject) objCount++;
+        // compares containers inventory number the location of all objects if equal increments object count
+        if (inventoryNumber == objs[i].locationOfObject) objCount++; 
     }
     return objCount;
 }
 // function to check if given noun is a container
 bool isContainer(const char * noun) {
     for (int i = 0; i < numberOfContainers; i++) {
+        // compares noun to all names of containers
         if (!strcmp(noun, contain[i].containName)) return true;
     }
     return false;
@@ -61,11 +64,13 @@ bool executePut(const char * noun) {
                     objs[getHeldObject()].locationOfObject = contain[i].containInventory;
                     objectPlaced = true;
                 } else {
+                    // if container is full
                     printf("The %s is full! An object must be removed before one can be placed!\n", contain[i].containName);
                     objectPlaced = true;
                 }
             }
         }
+        // if the object was not placed (unless was not placed due to container being full)
         if (!objectPlaced) {
             printf("%s is not in this room.\n", noun);
             return false;

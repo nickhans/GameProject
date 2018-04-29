@@ -4,7 +4,6 @@
 #include <string.h>
 #include <sys/time.h> // used to find elapsed time
 
-
 // user made libraries
 #include "location.h"
 #include "object.h"
@@ -49,11 +48,12 @@ void displayEntry() {
     "NOTE: If you are stuck, try typing 'help'!\n", player.name);
 }
 
+//print exit message if game ends by quit
 void displayQuit() {
-    //print exit message
     printf("Goodbye... for now...\n");
 }
 
+// message to display if game ends by win
 void displayEnd() {
     printf("Congrats you escaped!\n");
 }
@@ -88,15 +88,18 @@ static int parseAndExecute() {
         } else if (!strcmp(verb, "inventory")) {    // definition in player.c
             executeInventory();
         } else if (!strcmp(verb, "put")) {
-            if (executePut(noun)) {
+            // if execute put returns true process event
+            if (executePut(noun)) {                 // definition in container.c
+                // if eventProcessing returns true then game has been won, display end, and exit loop
                 if (eventProcessing(noun)) {
                     displayEnd();
                     return 0;
                 }
             }
         } else if (!strcmp(verb, "remove")) {
-            executeRemove(noun);
+            executeRemove(noun);                    // definition in container.c
         } else {
+            // if verb != and commands
             printf("I'm not sure what that means\n");
         }
     }
@@ -118,15 +121,18 @@ int main(void) {
     gettimeofday(&t2, NULL);
     // find the difference between start time and end time
     int elapsedTime = (t2.tv_sec - t1.tv_sec);
+    // sets playerTime to elapsedTime (in seconds)
     player.playerTime = elapsedTime;
-    // print the elapsed time
-    
+    // checks if player won or quit
     if (didWin()) {
+        // display players time in min sec format
         printf("Your time: ");
         formatAndDisplayTime(elapsedTime);
+        // checks to see if the player got a high score and prints the high scores
         printf("Checking for highscore...\n");
         saveHighscore();
     } else {
+        // if player quit prints current high scores
         printHighscore();
     }
     return 0;

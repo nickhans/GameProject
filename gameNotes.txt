@@ -1,3 +1,4 @@
+This files has no effect on the game and has simply been used for managing game properties
 
 Locations:
 

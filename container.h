@@ -13,6 +13,7 @@ struct container {
     int containCapacity;
 };
 
+// creates pointers to each member of contain array
 #define trapdoor (contain + 0)
 #define desk (contain + 1)
 #define bookshelf (contain + 2)

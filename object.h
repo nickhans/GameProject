@@ -10,6 +10,7 @@ struct object {
     int locationOfObject;
 };
 
+// creates a pointer to each member of objs array
 #define circle (objs + 0)
 #define square (objs + 1)
 #define triangle (objs + 2)

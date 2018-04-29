@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+// user made libraries
 #include "player.h"
 #include "location.h"
 #include "object.h"
@@ -9,6 +10,7 @@
 
 // creates an array of the locations in the game
 struct location locs[] = {
+//  {description, name, room number}
     {"a circular room. There are 6 doors around you", "center", 0},
     {"Room 1", "1", 1},
     {"Room 2", "2", 2},
@@ -62,6 +64,7 @@ void randomizeRooms(int newRoomOrder) {
 // function to find the array location of player in the roomOrder array returns -1 if in middle room
 int findCurrentLocation() {
     for (int i = 0; i < numberOfLocations; i++) {
+        // returns i - 1 because the return value is used in an array where room 1 equals 0 in array
         if (player.locationOfPlayer == locs[i].roomNumber) return i - 1;
     }
     return -1;
@@ -93,6 +96,7 @@ void executeExamine(const char * noun) {
                 hasObject = true;
             }
         }
+        // if nothing is in the room
         if (!hasObject) printf("-nothing\n");
         hasObject = false; // reset hasObject to false
     // if there is a noun but it isn't room
@@ -119,12 +123,14 @@ void executeExamine(const char * noun) {
                     // prints the description of container
                     printf("This is %s, the %s can hold %d objects.\n", contain[i].containDesc, contain[i].containName, contain[i].containCapacity);
                     printf("The %s contains:\n", contain[i].containName);
+                    // checks for objects in container and prints them
                     for (int j = 0; j < numberOfObjects; j++) {
                         if (objs[j].locationOfObject == contain[i].containInventory) {
                             printf("-%s\n", objs[j].objName);
                             hasObject = true;
                         }
                     }
+                    // if container has no objects prints nothing
                     if (!hasObject) printf("-nothing\n");
                     hasObject = false; 
                     break;

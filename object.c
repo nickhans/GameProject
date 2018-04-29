@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+
+// user made libraries
 #include "object.h"
 #include "location.h"
 #include "player.h"
@@ -8,6 +10,7 @@
 
 // creates array of objects
 struct object objs[] = {
+//  {description, name, location}
     {"a small ebony circle", "circle", 13},
     {"a small silver square", "square", 13},
     {"a small bronze triangle", "triangle", 13},
@@ -44,6 +47,7 @@ void executeTake(const char * noun) {
                 printf("%s taken\n", objs[i].objName);
                 objectTaken = true;
                 break;
+            // if player is trying to take a container
             } else if (isContainer(noun)) {
                 for (int j = 0; j < numberOfContainers; j++) {
                     if (contain[j].locationOfContainer == player.locationOfPlayer) {
