@@ -71,7 +71,7 @@ bool executePut(const char * noun) {
             return false;
         } else {
             objectPlaced = false; // re-init object placed
-            return false;
+            return true;
         }
     // if player is holding nothing
     } else {
