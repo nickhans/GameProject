@@ -19,11 +19,13 @@ struct location locs[] = {
 };
 
 // different room arrangements for outside rooms
-int roomOrder[4][6] = {
+int roomOrder[6][6] = {
     {1,2,3,4,5,6},
     {2,4,6,1,3,5},
     {4,3,6,2,5,1},
-    {5,1,2,6,3,4}
+    {5,1,2,6,3,4},
+    {3,2,1,6,5,4},
+    {6,5,1,3,4,2}
 };
 // variable for current room set
 int currentRoomOrder = 0;
