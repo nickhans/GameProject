@@ -127,7 +127,7 @@ int main(void) {
     player.playerTime = elapsedTime;
     // print the elapsed time
     formatAndDisplayTime(elapsedTime);
-    if (didWin()) {
+    if (true) {
         printf("Checking for highscore...\n");
         saveHighscore();
     }
