@@ -9,7 +9,10 @@ struct highscore {
 };
 
 struct highscore scores[5];
+
 int numOfScores = sizeof(scores) / sizeof(*scores);
+
+char * fileName = ".highscore.txt";
 
 void formatAndDisplayTime(int time) {
     int minutes = time / 60;
@@ -21,14 +24,14 @@ void saveHighscore() {
     FILE *scoreFile;
     
 
-    scoreFile = fopen("highscore.txt", "r");
+    scoreFile = fopen(fileName, "r");
     for (int i = 0; i < numOfScores; i++) {
         fscanf(scoreFile, "%s", scores[i].name);
         fscanf(scoreFile, "%d", &scores[i].score);
     }
     fclose(scoreFile);
 
-    scoreFile = fopen("highscore.txt", "w");
+    scoreFile = fopen(fileName, "w");
     bool scoreWritten = false;
     for (int i = 0; i < numOfScores; i++) {
         if (player.playerTime <= scores[i].score && !scoreWritten) {
@@ -42,7 +45,7 @@ void saveHighscore() {
     }
     fclose(scoreFile);
 
-    scoreFile = fopen("highscore.txt", "r");
+    scoreFile = fopen(fileName, "r");
     for (int i = 0; i < numOfScores; i++) {
         fscanf(scoreFile, "%s", scores[i].name);
         fscanf(scoreFile, "%d", &scores[i].score);
