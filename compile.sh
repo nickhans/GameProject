@@ -20,7 +20,7 @@ compile() {
             exit -1     #if file was not made compilation fails
         }
     fi
-    # clear
+    clear
     ./game
     exit 0;
 }
