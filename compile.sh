@@ -1,12 +1,15 @@
 #! /bin/bash
 
 compile() {
+    DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    echo "$DIR"
     clear
     echo "Preparing Compile"
     rm game   
     echo ""          #removes current game.exec
     echo "Compiling game" 
-    echo ""  
+    echo ""
+    cd $DIR  
     make                #runs makefile to compile individual .c files    
     #add .o files below
     gcc main.o location.o object.o player.o container.o misc.o score.o event.o -o game      
