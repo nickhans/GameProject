@@ -25,6 +25,7 @@ compile() {
     fi
     clear
     ./game
+    read -p "Press [Enter] to end..."
     exit 0;
 }
 
